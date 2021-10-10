@@ -4,7 +4,10 @@
 $val = trim($argv[1]);
 $lockUntil = $argv[2];
 
-$key = file_get_contents('./master.key');
+if (($key = @file_get_contents('./master.key')) === false) {
+   echo 'No master.key found';
+   exit;
+}
 
 $encrypted = encryptWithTime($val, $key, $lockUntil);
 $saveto = __DIR__ . '/encstore/encrypted-' . time();

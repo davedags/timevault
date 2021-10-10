@@ -1,7 +1,11 @@
 <?php
 
 $file = $argv[1];
-$key = file_get_contents('./master.key');
+
+if (($key = @file_get_contents('./master.key')) === false) {
+   echo 'No master.key found';
+   exit;
+}
 
 $encrypted = file_get_contents($file);
 if ($decrypted = decryptWithTime($encrypted, $key)) {
